@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import coronavirustracker.models.FinalStats;
 import coronavirustracker.models.LocationStats;
 
 @Service
@@ -21,11 +22,10 @@ public class CoronaVirusDataService {
 	
 	private static String VIRUS_DATA_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
 	
-	private List<LocationStats> allStats = new ArrayList<>();
 	
 	@PostConstruct
 	@Scheduled(cron = "* * 1 * * *")
-	public void fetchVirusData() throws IOException {
+	public List<LocationStats> fetchVirusData() throws IOException {
 		List<LocationStats> newStats = new ArrayList<>();
 		
 		RestTemplate restTemplate = new RestTemplate();
@@ -47,11 +47,15 @@ public class CoronaVirusDataService {
 		    newStats.add(locationStat);
 		    
 		}
-		this.allStats = newStats;
+		return newStats;
 	}
 
-	public List<LocationStats> getAllStats() {
-		return allStats;
+	public List<LocationStats> getAllStats() throws IOException {
+		FinalStats finalStats = new FinalStats();
+		
+		finalStats.setAllStats(fetchVirusData());
+		
+		return finalStats.getAllStats();
 	}
 
 }

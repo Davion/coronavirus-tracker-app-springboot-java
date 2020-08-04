@@ -1,5 +1,6 @@
 package coronavirustracker.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class HomeController {
 	CoronaVirusDataService coronaVirusDataService;
 	
 	@GetMapping("/")
-	public String home(Model model) {
+	public String home(Model model) throws IOException {
 		List<LocationStats> allStats = coronaVirusDataService.getAllStats();
 		int totalReportedCases = allStats.stream().mapToInt(stat -> stat.getLatestTotalCases()).sum();
 		int totalNewCases = allStats.stream().mapToInt(stat -> stat.getDiffFromPrevDay()).sum();
