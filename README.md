@@ -4,3 +4,4 @@ This is a simple web app that fetches data from [CSSEGISandData](https://github.
 
 *Web App Screenshot*
 
+![Web App Screenshot](https://github.com/Davion/coronavirus-tracker-app-springboot-java/blob/master/src/main/resources/static/coronavirus-tracker-app-screenshot.png)
